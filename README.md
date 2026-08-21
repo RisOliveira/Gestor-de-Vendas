@@ -1,0 +1,1 @@
+Sistema de gestão de vendas para loja de roupas desenvolvido em Java. O projeto será construído de forma incremental, iniciando com uma base MVC e incorporando gradualmente novas funcionalidades, integrações, APIs e recursos de apoio à operação comercial.
