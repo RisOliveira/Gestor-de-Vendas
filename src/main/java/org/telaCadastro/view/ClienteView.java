@@ -4,14 +4,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.telaCadastro.controller.ClienteController;
 import org.telaCadastro.model.Cliente;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,18 +77,89 @@ public class ClienteView {
         botoes.getChildren().addAll(btnCadastrar, btnEditar, btnExcluir);
 
         VBox painelClientes = new VBox(10);
+        HBox cabecalho = new HBox(10);
+        cabecalho.setAlignment(Pos.TOP_LEFT);
+        cabecalho.setSpacing(10);
 
-        List<Cliente> clientes = controller.listar();
+        Label cbNome = new Label("Nome");
+        Label cbCpf = new Label("CPF");
+        Label cbTelefone = new  Label("Telefone");
+        Label cbRua = new  Label("Rua");
+        Label cbNumero = new  Label("Numero");
+
+        cbNome.setPrefWidth(250);
+        cbCpf.setPrefWidth(150);
+        cbTelefone.setPrefWidth(150);
+        cbRua.setPrefWidth(250);
+        cbNumero.setPrefWidth(80);
+
+        cabecalho.getChildren().addAll(cbNome, cbCpf, cbTelefone, cbRua, cbNumero);
+
+        List<Cliente> clientes;
+
+
+
+        try {
+            clientes = controller.listar();
+        } catch (Exception e) {
+
+            clientes = new ArrayList<>();
+
+            Cliente cliente = new Cliente();
+            cliente.setNome("João da Silva");
+            cliente.setCpf("123.456.789-00");
+            cliente.setTelefone("(11) 99999-9999");
+            cliente.setRua("Rua Teste");
+            cliente.setNumero("123");
+
+            Cliente cliente2 = new Cliente();
+            cliente2.setNome("Maria Oliveira");
+            cliente2.setCpf("987.654.321-00");
+            cliente2.setTelefone("(11) 98888-8888");
+            cliente2.setRua("Rua Central");
+            cliente2.setNumero("456");
+
+            Cliente cliente3 = new Cliente();
+            cliente3.setNome("Carlos Souza");
+            cliente3.setCpf("111.222.333-44");
+            cliente3.setTelefone("(11) 97777-7777");
+            cliente3.setRua("Rua Comercial");
+            cliente3.setNumero("789");
+
+            clientes.add(cliente);
+            clientes.add(cliente2);
+            clientes.add(cliente3);
+        }
 
         for(Cliente cliente : clientes){
-            HBox card = new HBox(5);
+            HBox card = new HBox(20);
+
+            CheckBox checkBox = new CheckBox();
+            Label lblNome = new Label(cliente.getNome());
+            Label lblCpf= new Label(cliente.getCpf());
+            Label lblTelefone = new Label(cliente.getTelefone());
+            Label lblRua = new Label(cliente.getRua());
+            Label lblNumero = new Label(cliente.getNumero());
+
+            checkBox.setPadding(new Insets(5,5,5,5));
+            lblNome.setPrefWidth(250);
+            lblNome.setPadding(new Insets(5,5,5,5));
+            lblCpf.setPrefWidth(150);
+            lblCpf.setPadding(new Insets(5,5,5,5));
+            lblTelefone.setPrefWidth(150);
+            lblTelefone.setPadding(new Insets(5,5,5,5));
+            lblRua.setPrefWidth(250);
+            lblRua.setPadding(new Insets(5,5,5,5));
+            lblNumero.setPrefWidth(80);
+            lblNumero.setPadding(new Insets(5,5,5,5));
 
             card.getChildren().addAll(
-                    new Label("cliente.getNome()"),
-                    new Label("cliente.getCpf()"),
-                    new Label("cliente.getTelefone()"),
-                    new Label("cliente.getRua()"),
-                    new Label("cliente.getNumero()")
+                    checkBox,
+                    lblNome,
+                    lblCpf,
+                    lblTelefone,
+                    lblRua,
+                    lblNumero
             );
 
             painelClientes.getChildren().add(card);
@@ -94,6 +167,7 @@ public class ClienteView {
 
         ScrollPane scroll = new ScrollPane(painelClientes);
         scroll.setFitToWidth(true);
+        scroll.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 
 
         // =========================
@@ -114,7 +188,7 @@ public class ClienteView {
         // SCENE
         // =========================
 
-        scene = new Scene(root, 800, 600);
+        scene = new Scene(root, 1100, 850);
 
         scene.getStylesheets().add(
                 getClass()
