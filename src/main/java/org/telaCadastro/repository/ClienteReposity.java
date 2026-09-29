@@ -42,6 +42,37 @@ public class ClienteReposity {
 
     }
 
+    public void editar(Cliente cliente){
+        String sql = "UPDATE CLIENTE (NOME, CPF, DATANASC,TELEFONE, EMAIL, RUA, NUMERO, COMPL, BAIRRO, CIDADE, ESTADO, PAIS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) WHERE CPF = ?";
+
+        try (
+                Connection conn = ConnectionFactory.getConnection();
+
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ){
+            // Parametro para identificar cliente
+            stmt.setString(13,cliente.getCpf());
+
+            // Dados Atualizados
+            stmt.setString(1, cliente.getNome());
+            stmt.setString(2, cliente.getCpf());
+            stmt.setString(3, cliente.getDataNasc().toString());
+            stmt.setString(4, cliente.getTelefone());
+            stmt.setString(5, cliente.getEmail());
+            stmt.setString(6, cliente.getRua());
+            stmt.setString(7, cliente.getNumero());
+            stmt.setString(8, cliente.getCompl());
+            stmt.setString(9, cliente.getBairro());
+            stmt.setString(10, cliente.getCidade());
+            stmt.setString(11, cliente.getEstado());
+            stmt.setBoolean(12, cliente.getPais());
+        }
+        catch ( SQLException e ) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar o cliente!\n" + e);
+        }
+
+    }
+
 
     public List<Cliente> listar() {
         List<Cliente> clientes = new ArrayList<>();
