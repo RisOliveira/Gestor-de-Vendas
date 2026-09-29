@@ -1,39 +1,41 @@
-package model;
+package org.telaCadastro.model;
 
-import enums.Cidade;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Cliente {
 
     private long id;
-    private String name;
-    private String CPF;
-    private Date dataNasc;
-    private String endereco;
+    private String nome;
+    private String cpf;
+    private String telefone;
+    private String email;
+    private LocalDate dataNasc;
+    private String rua;
     private String numero;
-    private String bairro;
     private String compl;
-    private Cidade cidade;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private Boolean Pais;
 
-    public Cliente(long id, String name, String CPF, Date dataNasc, String endereco, String numero, String bairro, String compl, Cidade cidade) {
+    public Cliente(long id, String nome, String cpf, String telefone, String email, LocalDate dataNasc, String rua, String numero, String compl, String bairro, String cidade, String estado, Boolean pais) {
         this.id = id;
-        this.name = name;
-        this.CPF = CPF;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.email = email;
         this.dataNasc = dataNasc;
-        this.endereco = endereco;
+        this.rua = rua;
         this.numero = numero;
-        this.bairro = bairro;
         this.compl = compl;
-        this.cidade = cidade;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
         this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        Pais = pais;
+    }
+
+    public Cliente() {
+
     }
 
     public long getId() {
@@ -44,36 +46,52 @@ public class Cliente {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getCPF() {
-        return CPF;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public Date getDataNasc() {
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getDataNasc() {
         return dataNasc;
     }
 
-    public void setDataNasc(Date dataNasc) {
+    public void setDataNasc(LocalDate dataNasc) {
         this.dataNasc = dataNasc;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getRua() {
+        return rua;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setRua(String rua) {
+        this.rua = rua;
     }
 
     public String getNumero() {
@@ -92,11 +110,35 @@ public class Cliente {
         this.compl = compl;
     }
 
-    public Cidade getCidade() {
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getCidade() {
         return cidade;
     }
 
-    public void setCidade(Cidade cidade) {
+    public void setCidade(String cidade) {
         this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Boolean getPais() {
+        return Pais;
+    }
+
+    public void setPais(Boolean pais) {
+        Pais = pais;
     }
 }

@@ -15,7 +15,7 @@ public class Main extends Application {
         TelaCadastroView view = new TelaCadastroView(controller);
 
         stage.setScene(view.getScene());
-        stage.setTitle("Cadastro");
+        stage.setTitle("Questão de Modas");
         stage.show();
     }
 

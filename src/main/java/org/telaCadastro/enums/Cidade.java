@@ -1,4 +1,4 @@
-package enums;
+package org.telaCadastro.enums;
 
 public enum Cidade {
     CAJAMAR,
@@ -17,5 +17,9 @@ public enum Cidade {
         this.descricao =
                 Character.toUpperCase(texto.charAt(0))
                         + texto.substring(1);
+    }
+
+    public String getDescricao(){
+        return descricao;
     }
 }
