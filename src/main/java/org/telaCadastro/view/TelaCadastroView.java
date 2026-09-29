@@ -211,7 +211,7 @@ public class TelaCadastroView {
         // BOTÕES
         // =========================
 
-        Button btnOk= new Button("Ok");
+        Button btnOk = new Button("Ok");
         btnOk.getStyleClass().add("botao-principal");
         btnOk.setOnAction(
                 event -> {
