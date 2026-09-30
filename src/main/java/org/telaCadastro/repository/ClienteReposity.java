@@ -43,7 +43,7 @@ public class ClienteReposity {
     }
 
     public void editar(Cliente cliente){
-        String sql = "UPDATE CLIENTE (NOME, CPF, DATANASC,TELEFONE, EMAIL, RUA, NUMERO, COMPL, BAIRRO, CIDADE, ESTADO, PAIS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) WHERE CPF = ?";
+        String sql = "UPDATE CLIENTE (NOME, CPF, DATANASC,TELEFONE, EMAIL, RUA, NUMERO, COMPL, BAIRRO, CIDADE, ESTADO, PAIS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) WHERE ID = ?";
 
         try (
                 Connection conn = ConnectionFactory.getConnection();
@@ -51,7 +51,7 @@ public class ClienteReposity {
                 PreparedStatement stmt = conn.prepareStatement(sql);
         ){
             // Parametro para identificar cliente
-            stmt.setString(13,cliente.getCpf());
+            stmt.setInt(13, (int) cliente.getId());
 
             // Dados Atualizados
             stmt.setString(1, cliente.getNome());

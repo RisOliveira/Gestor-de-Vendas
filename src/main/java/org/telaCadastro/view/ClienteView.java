@@ -76,28 +76,36 @@ public class ClienteView {
         botoes.setStyle("-fx-padding: 10;");
         botoes.getChildren().addAll(btnCadastrar, btnEditar, btnExcluir);
 
-        VBox painelClientes = new VBox(10);
+        // ==========================================
+        //    PAINEL DE CLIENTES
+        // ==========================================
+
+        VBox painelClientes = new VBox(2);
+
         HBox cabecalho = new HBox(10);
         cabecalho.setAlignment(Pos.TOP_LEFT);
         cabecalho.setSpacing(10);
+        cabecalho.getStyleClass().add("cabecalho");
 
+
+        Label cbId = new Label("Id     ");
         Label cbNome = new Label("Nome");
         Label cbCpf = new Label("CPF");
         Label cbTelefone = new  Label("Telefone");
         Label cbRua = new  Label("Rua");
         Label cbNumero = new  Label("Numero");
 
-        cbNome.setPrefWidth(250);
+        cbId.setPrefWidth(85);
+        cbId.setAlignment(Pos.TOP_RIGHT);
+        cbNome.setPrefWidth(225);
         cbCpf.setPrefWidth(150);
         cbTelefone.setPrefWidth(150);
         cbRua.setPrefWidth(250);
-        cbNumero.setPrefWidth(80);
+        cbNumero.setPrefWidth(60);
 
-        cabecalho.getChildren().addAll(cbNome, cbCpf, cbTelefone, cbRua, cbNumero);
+        cabecalho.getChildren().addAll(cbId, cbNome, cbCpf, cbTelefone, cbRua, cbNumero);
 
         List<Cliente> clientes;
-
-
 
         try {
             clientes = controller.listar();
@@ -106,6 +114,7 @@ public class ClienteView {
             clientes = new ArrayList<>();
 
             Cliente cliente = new Cliente();
+            cliente.setId(1);
             cliente.setNome("João da Silva");
             cliente.setCpf("123.456.789-00");
             cliente.setTelefone("(11) 99999-9999");
@@ -113,6 +122,7 @@ public class ClienteView {
             cliente.setNumero("123");
 
             Cliente cliente2 = new Cliente();
+            cliente2.setId(2);
             cliente2.setNome("Maria Oliveira");
             cliente2.setCpf("987.654.321-00");
             cliente2.setTelefone("(11) 98888-8888");
@@ -120,6 +130,7 @@ public class ClienteView {
             cliente2.setNumero("456");
 
             Cliente cliente3 = new Cliente();
+            cliente3.setId(3);
             cliente3.setNome("Carlos Souza");
             cliente3.setCpf("111.222.333-44");
             cliente3.setTelefone("(11) 97777-7777");
@@ -134,7 +145,12 @@ public class ClienteView {
         for(Cliente cliente : clientes){
             HBox card = new HBox(20);
 
+            if(painelClientes.getChildren().size()%2 != 0){
+                card.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            }
+
             CheckBox checkBox = new CheckBox();
+            Label lblId = new Label(String.valueOf(cliente.getId()));
             Label lblNome = new Label(cliente.getNome());
             Label lblCpf= new Label(cliente.getCpf());
             Label lblTelefone = new Label(cliente.getTelefone());
@@ -142,7 +158,8 @@ public class ClienteView {
             Label lblNumero = new Label(cliente.getNumero());
 
             checkBox.setPadding(new Insets(5,5,5,5));
-            lblNome.setPrefWidth(250);
+            lblId.setPadding(new Insets(5,5,5,5));
+            lblNome.setPrefWidth(200);
             lblNome.setPadding(new Insets(5,5,5,5));
             lblCpf.setPrefWidth(150);
             lblCpf.setPadding(new Insets(5,5,5,5));
@@ -155,6 +172,7 @@ public class ClienteView {
 
             card.getChildren().addAll(
                     checkBox,
+                    lblId,
                     lblNome,
                     lblCpf,
                     lblTelefone,
@@ -162,6 +180,13 @@ public class ClienteView {
                     lblNumero
             );
 
+            card.setOnMouseClicked(event -> {
+                if(event.getClickCount() == 2){
+                    Stage stage = new Stage();
+                    stage.setScene(cadastroView.getScene());
+                    stage.show();
+                }
+            });
             painelClientes.getChildren().add(card);
         }
 
@@ -178,7 +203,7 @@ public class ClienteView {
 
         root.setPadding(new Insets(30));
         root.getChildren().addAll(
-                lblTitulo, botoes, scroll
+                lblTitulo, botoes,cabecalho, scroll
         );
 
 

@@ -24,6 +24,16 @@ public class ClienteService {
         return erros;
     }
 
+    public List<String> editar(Cliente cliente){
+        List<String> erros = validar(cliente);
+
+        if (erros.isEmpty()) {
+            clienteReposity.editar(cliente);
+        }
+
+        return erros;
+    }
+
     private List<String> validar(Cliente cliente){
 
         List<String> erros = new ArrayList<>();

@@ -2,3 +2,8 @@
     -fx-font-style: "Bolder";
 
 }
+
+.cabecalho{
+    -fx-font-family:"Segoe UI";
+    -fx-border-style: "solid";
+}
