@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.telaCadastro.controller.ClienteController;
 import org.telaCadastro.enums.Cidade;
+import org.telaCadastro.model.Cliente;
 import org.telaCadastro.util.StringUtils;
 
 import java.util.Arrays;
@@ -21,14 +22,34 @@ import java.util.Arrays;
 public class TelaCadastroView {
 
     private final ClienteController controller;
+    private Cliente cliente;
     private Scene scene;
 
+    private TextField txtNome;
+    private TextField txtCpf;
+    private TextField txtTelefone;
+    private TextField txtEmail;
+    private DatePicker dtNasc;
 
+    private TextField txtRua;
+    private TextField txtNumero;
+    private TextField txtComp;
+    private TextField txtBairro;
+    private ComboBox<String> cmbCidade;
+    private TextField txtEstado;
 
-    public TelaCadastroView(ClienteController controller) {
+    private RadioButton rbBrasileiro;
+    private RadioButton rbEstrangeiro;
+
+    public TelaCadastroView(ClienteController controller){
+        this(controller, null);
+    }
+
+    public TelaCadastroView(ClienteController controller, Cliente cliente) {
 
 
         this.controller = controller;
+        this.cliente = cliente;
 
         // =========================
         // GRID PRINCIPAL
@@ -73,27 +94,27 @@ public class TelaCadastroView {
         // =========================
 
         Label lblNome = new Label("Nome");
-        TextField txtNome = new TextField();
+        txtNome = new TextField();
         txtNome.getStyleClass().add("campo");
 
         Label lblCpf = new Label("CPF");
-        TextField txtCpf = new TextField();
+        txtCpf = new TextField();
         txtCpf.getStyleClass().add("campo");
         StringUtils.aplicarCPF(txtCpf);
 
         Label lblTelefone = new Label("Telefone");
-        TextField txtTelefone = new TextField();
+        txtTelefone = new TextField();
         txtTelefone.getStyleClass().add("campo");
         StringUtils.aplicarTelefone(txtTelefone);
 
 
 
         Label lblEmail = new Label("Email");
-        TextField txtEmail = new TextField();
+        txtEmail = new TextField();
         txtEmail.getStyleClass().add("campo");
 
         Label lblNasc = new Label("Data Nasc.");
-        DatePicker dtNasc = new DatePicker();
+        dtNasc = new DatePicker();
         dtNasc.getStyleClass().add("campo");
         TextField campoData = dtNasc.getEditor();
         StringUtils.aplicarData(campoData);
@@ -104,30 +125,30 @@ public class TelaCadastroView {
         // =========================
 
         Label lblRua = new Label("Rua");
-        TextField txtRua = new TextField();
+        txtRua = new TextField();
         txtRua.getStyleClass().add("campo");
 
         Label lblNumero = new Label("Número");
-        TextField txtNumero = new TextField();
+        txtNumero = new TextField();
         txtNumero.getStyleClass().add("campo");
 
 
 
         Label lblComp = new Label("Complemento");
-        TextField txtComp = new TextField();
+        txtComp = new TextField();
         txtComp.getStyleClass().add("campo");
 
         Label lblBairro = new Label("Bairro");
-        TextField txtBairro = new TextField();
+        txtBairro = new TextField();
         txtBairro.getStyleClass().add("campo");
 
         Label lblCidade = new Label("Cidade");
-        ComboBox<String> cmbCidade = new ComboBox<>();
+        cmbCidade = new ComboBox<>();
         cmbCidade.getStyleClass().add("campo");
         cmbCidade.getItems().addAll(Arrays.stream(Cidade.values()).map(Cidade::getDescricao).toList());
 
         Label lblEstado = new Label("Estado");
-        TextField txtEstado = new TextField();
+        txtEstado = new TextField();
         txtEstado.getStyleClass().add("campo");
 
         Label lblPais = new Label("Nacionalidade");
@@ -136,8 +157,8 @@ public class TelaCadastroView {
         // RADIOBUTTON
         // =========================
 
-        RadioButton rbBrasileiro = new RadioButton("Brasileiro");
-        RadioButton rbEstrangeiro = new RadioButton("Estrangeiro");
+        rbBrasileiro = new RadioButton("Brasileiro");
+        rbEstrangeiro = new RadioButton("Estrangeiro");
 
         ToggleGroup grupoNacionalidade = new ToggleGroup();
 
@@ -209,6 +230,11 @@ public class TelaCadastroView {
         grid.add(lblPais, 0, 7);
         grid.add(grupoNaci, 1, 7, 3, 1);
 
+        // Preencher os campos caso seja edição
+        if(cliente != null) {
+            preencherCliente(cliente);
+        }
+
         // =========================
         // BOTÕES
         // =========================
@@ -248,23 +274,41 @@ public class TelaCadastroView {
                     RadioButton nacionalidade =
                             (RadioButton) grupoNacionalidade.getSelectedToggle();
 
-                    controller.salvarCliente(
+                    if (cliente == null) {
 
+                        controller.salvarCliente(
+                                StringUtils.vazioParaNulo(txtNome.getText()),
+                                StringUtils.vazioParaNulo(txtCpf.getText()),
+                                StringUtils.vazioParaNulo(dtNasc.getValue()),
+                                StringUtils.vazioParaNulo(txtTelefone.getText()),
+                                StringUtils.vazioParaNulo(txtEmail.getText()),
+                                StringUtils.vazioParaNulo(txtRua.getText()),
+                                StringUtils.vazioParaNulo(txtNumero.getText()),
+                                StringUtils.vazioParaNulo(txtComp.getText()),
+                                StringUtils.vazioParaNulo(txtBairro.getText()),
+                                StringUtils.vazioParaNulo(cmbCidade.getValue()),
+                                StringUtils.vazioParaNulo(txtEstado.getText()),
+                                StringUtils.vazioParaNulo(nacionalidade.getText())
+                        );
 
-                            StringUtils.vazioParaNulo(txtNome.getText()),
-                            StringUtils.vazioParaNulo(txtCpf.getText()),
-                            StringUtils.vazioParaNulo(dtNasc.getValue()),
-                            StringUtils.vazioParaNulo(txtTelefone.getText()),
-                            StringUtils.vazioParaNulo(txtEmail.getText()),
-                            StringUtils.vazioParaNulo(txtRua.getText()),
-                            StringUtils.vazioParaNulo(txtNumero.getText()),
-                            StringUtils.vazioParaNulo(txtComp.getText()),
-                            StringUtils.vazioParaNulo(txtBairro.getText()),
-                            StringUtils.vazioParaNulo(cmbCidade.getValue()),
-                            StringUtils.vazioParaNulo(txtEstado.getText()),
-                            StringUtils.vazioParaNulo(nacionalidade.getText())
+                    } else {
 
-                    );
+                        controller.editarCliente(
+                                cliente.getId(),
+                                StringUtils.vazioParaNulo(txtNome.getText()),
+                                StringUtils.vazioParaNulo(txtCpf.getText()),
+                                StringUtils.vazioParaNulo(dtNasc.getValue()),
+                                StringUtils.vazioParaNulo(txtTelefone.getText()),
+                                StringUtils.vazioParaNulo(txtEmail.getText()),
+                                StringUtils.vazioParaNulo(txtRua.getText()),
+                                StringUtils.vazioParaNulo(txtNumero.getText()),
+                                StringUtils.vazioParaNulo(txtComp.getText()),
+                                StringUtils.vazioParaNulo(txtBairro.getText()),
+                                StringUtils.vazioParaNulo(cmbCidade.getValue()),
+                                StringUtils.vazioParaNulo(txtEstado.getText()),
+                                StringUtils.vazioParaNulo(nacionalidade.getText())
+                        );
+                    }
                 }
         );
 
@@ -330,7 +374,33 @@ public class TelaCadastroView {
         );
     }
 
+    private void preencherCliente(Cliente cliente) {
+        txtNome.setText(cliente.getNome());
+        txtCpf.setText(cliente.getCpf());
+        txtTelefone.setText(cliente.getTelefone());
+        txtEmail.setText(cliente.getEmail());
 
+        dtNasc.setValue(cliente.getDataNasc());
+
+        txtRua.setText(cliente.getRua());
+        txtNumero.setText(cliente.getNumero());
+        txtComp.setText(cliente.getCompl());
+        txtBairro.setText(cliente.getBairro());
+
+        cmbCidade.setValue(cliente.getCidade());
+
+        txtEstado.setText(cliente.getEstado());
+
+        if(cliente.getPais()){
+            rbBrasileiro.setSelected(true);
+        } else  {
+            rbEstrangeiro.setSelected(true);
+        }
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     public Scene getScene() {
         return scene;

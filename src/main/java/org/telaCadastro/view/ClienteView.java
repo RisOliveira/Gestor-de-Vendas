@@ -50,7 +50,7 @@ public class ClienteView {
             Stage stage = new Stage();
 
             stage.setScene(cadastroView.getScene());
-            stage.setTitle("Cadastro");
+            stage.setTitle("Novo Cliente");
 
             stage.show();
         });
@@ -61,7 +61,7 @@ public class ClienteView {
             Stage stage = new Stage();
 
             stage.setScene(cadastroView.getScene());
-            stage.setTitle("Cadastro");
+            stage.setTitle("Novo Cliente");
 
             stage.show();
         });
@@ -181,12 +181,18 @@ public class ClienteView {
             );
 
             card.setOnMouseClicked(event -> {
+
                 if(event.getClickCount() == 2){
+                    cadastroView.setCliente(cliente);
+                    // cadastroView.setIdCliente(lblId.getText());
+
                     Stage stage = new Stage();
                     stage.setScene(cadastroView.getScene());
+                    stage.setTitle("Editar Cliente");
                     stage.show();
                 }
             });
+
             painelClientes.getChildren().add(card);
         }
 
@@ -205,8 +211,6 @@ public class ClienteView {
         root.getChildren().addAll(
                 lblTitulo, botoes,cabecalho, scroll
         );
-
-
 
 
         // =========================
