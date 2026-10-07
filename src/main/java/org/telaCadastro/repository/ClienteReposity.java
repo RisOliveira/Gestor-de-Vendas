@@ -16,7 +16,7 @@ public class ClienteReposity {
     public ClienteReposity(){}
 
     public void salvar(Cliente cliente){
-        String sql = "INSERT INTO CLIENTE (NOME, CPF, DATANASC,TELEFONE, EMAIL, RUA, NUMERO, COMPL, BAIRRO, CIDADE, ESTADO, PAIS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO CLIENTE (CLI_NOME, CLI_CPF, CLI_DTNASC,CLI_TELEFONE, CLI_EMAIL, CLI_RUA, CLI_NUMERO, CLI_COMPL, CLI_BAIRRO, CLI_CIDADE, CLI_ESTADO, CLI_NACIONALIDADE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try (
             Connection conn = ConnectionFactory.getConnection();
@@ -35,6 +35,8 @@ public class ClienteReposity {
             stmt.setString(10, cliente.getCidade());
             stmt.setString(11, cliente.getEstado());
             stmt.setBoolean(12, cliente.getPais());
+
+            stmt.executeUpdate();
         }
         catch ( SQLException e ) {
             JOptionPane.showMessageDialog(null, "Erro ao salvar o cliente!\n" + e);
@@ -43,8 +45,7 @@ public class ClienteReposity {
     }
 
     public void editar(Cliente cliente){
-        String sql = "UPDATE CLIENTE (NOME, CPF, DATANASC,TELEFONE, EMAIL, RUA, NUMERO, COMPL, BAIRRO, CIDADE, ESTADO, PAIS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) WHERE ID = ?";
-
+        String sql = "UPDATE CLIENTE SET CLI_NOME = ?, CLI_CPF = ?, CLI_DATANASC = ?, CLI_TELEFONE = ?, CLI_EMAIL = ?, CLI_RUA = ?, CLI_NUMERO = ?, CLI_COMPL = ?, CLI_BAIRRO = ?, CLI_CIDADE = ?, CLI_ESTADO = ?, CLI_PAIS = ? WHERE ID = ?";
         try (
                 Connection conn = ConnectionFactory.getConnection();
 
@@ -77,7 +78,7 @@ public class ClienteReposity {
     public List<Cliente> listar() {
         List<Cliente> clientes = new ArrayList<>();
 
-        String sql = "SELECT * FROM CLIENTE ORDER BY NOME LIMIT ?";
+        String sql = "SELECT * FROM CLIENTE ORDER BY CLI_NOME LIMIT ?";
 
         try (
                 Connection conn = ConnectionFactory.getConnection();
@@ -94,8 +95,11 @@ public class ClienteReposity {
             // Enquanto houver próximo ele abastece uma lista de clientes
             while(rs.next()){
                 Cliente cliente = new Cliente();
-                cliente.setNome(rs.getString("NOME"));
-                cliente.setCpf(rs.getString("CPF"));
+                cliente.setNome(rs.getString("CLI_NOME"));
+                cliente.setCpf(rs.getString("CLI_CPF"));
+                cliente.setTelefone(rs.getString("CLI_TELEFONE"));
+                cliente.setRua(rs.getString("CLI_RUA"));
+                cliente.setNumero(rs.getString("CLI_NUMERO"));
                 clientes.add(cliente);
 
             }
